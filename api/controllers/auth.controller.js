@@ -1,6 +1,7 @@
 import User from '../models/User.model.js';
 import bcryptjs from 'bcryptjs';
-export const signup = async (req, res) => {
+
+export const signup = async (req, res, next) => {
     try{
         const { username, email, password } = req.body;
         const hashedPassword = bcryptjs.hashSync(password, 10);
@@ -8,7 +9,8 @@ export const signup = async (req, res) => {
         await newUser.save()
         res.status(201).json('User created succesfully!');
     }catch(error){
-        console.log("Error in signup controller:",error.message);
+    // console.log("Error in signup controller:",error.message);
+        next(error);
     }
 
 };
